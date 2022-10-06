@@ -25,7 +25,7 @@ class PlaylistGenerator(object):
     def _generate_playlist(self):
         playlist = "{}\n{}".format(self._m3u8_header_template(), self._generate_playlist_entries())
         if self.end_playlist:
-            playlist += "{}\n#EXT-X-ENDLIST"
+            playlist += "\n#EXT-X-ENDLIST"
         return playlist
 
     def _generate_playlist_entries(self):
