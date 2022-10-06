@@ -22,7 +22,9 @@ class PlaylistGenerator(object):
     def _generate_playlist_entries(self):
         playlist = ""
         for entry in self.playlist_entries:
-            playlist += "#EXTINF:{duration}\n{media}\n".format(duration=float(entry['duration']), media=(entry['name']))
+            playlist += "#EXTINF:{duration},\n{media}\n".format(
+                duration=float(entry['duration']), media=(entry['name'])
+            )
 
         return playlist.replace(" ", "")
 
@@ -33,10 +35,7 @@ class PlaylistGenerator(object):
     def _m3u8_header_template(self):
         header = "#EXTM3U\n#EXT-X-VERSION:{version}\n#EXT-X-MEDIA-SEQUENCE:{sequence}\n#EXT-X-TARGETDURATION:{duration}".format(version=self.version, sequence=self.sequence, duration=self.duration).strip()
 
-        if self.end_playlist:
-            return "{}\n#EXT-X-ENDLIST".format(header)
-        else:
-            return header
+        return header
 
     def duration(self):
         duration_total = 0
