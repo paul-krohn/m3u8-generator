@@ -12,11 +12,11 @@ class PlaylistGenerator(object):
         '#EXT-X-TARGETDURATION:{duration}'
     ])
 
-    def __init__(self, playlist_entries=None, version=3):
+    def __init__(self, playlist_entries=None, version=3, end_playlist=True):
         if playlist_entries is None:
             raise ValueError
 
-        self.end_playlist = True
+        self.end_playlist = end_playlist
         self.playlist_entries = playlist_entries
         self.version = version
         self.sequence = 0
