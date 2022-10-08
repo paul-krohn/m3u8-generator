@@ -8,7 +8,6 @@ class PlaylistGenerator(object):
     header_template = "\n".join([
         '#EXTM3U',
         '#EXT-X-VERSION:{version}',
-        '#EXT-X-MEDIA-SEQUENCE:{sequence}',
         '#EXT-X-TARGETDURATION:{duration}',
         '#EXT-X-ALLOW-CACHE:{allow_cache}'
     ])
@@ -43,7 +42,7 @@ class PlaylistGenerator(object):
 
     def _m3u8_header_template(self):
         header = self.header_template.format(
-            version=self.version, sequence=self.sequence, duration=self.duration,
+            version=self.version, duration=self.duration,
             allow_cache='YES' if self.end_playlist else 'NO'
         ).strip()
 
