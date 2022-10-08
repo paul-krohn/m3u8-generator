@@ -22,8 +22,8 @@ class PlaylistGenerator(object):
         self.sequence = 0
         self.duration = len(self.playlist_entries)
 
-    def _generate_playlist(self):
-        playlist = "{}\n{}".format(self._m3u8_header_template(), self._generate_playlist_entries())
+    def _generate_playlist(self, sequence):
+        playlist = "{}\n{}".format(self._m3u8_header_template(sequence), self._generate_playlist_entries())
         if self.end_playlist:
             playlist += "\n#EXT-X-ENDLIST"
         return playlist
@@ -37,18 +37,21 @@ class PlaylistGenerator(object):
 
         return playlist.replace(" ", "")
 
-    def _generate(self):
-        return self._generate_playlist()
+    def _generate(self, sequence):
+        return self._generate_playlist(sequence)
 
-    def _m3u8_header_template(self):
+    def _m3u8_header_template(self, sequence):
         header = self.header_template.format(
             version=self.version, duration=self.duration,
             allow_cache='YES' if self.end_playlist else 'NO'
         ).strip()
 
+        if sequence:
+            header += '\n#EXT-X-MEDIA-SEQUENCE:{}'.format(sequence)
+
         return header
 
-    def generate(self):
+    def generate(self, sequence=None):
         """ This is a proxy for _generate makes it
         difficult to edit the real method for future."""
-        return self._generate()
+        return self._generate(sequence)
