@@ -12,15 +12,17 @@ class PlaylistGenerator(object):
         '#EXT-X-ALLOW-CACHE:{allow_cache}'
     ])
 
-    def __init__(self, playlist_entries=None, version=3, end_playlist=True):
+    def __init__(self, playlist_entries=None, version=3, end_playlist=True, target_duration=None):
         if playlist_entries is None:
+            raise ValueError
+        if target_duration is None:
             raise ValueError
 
         self.end_playlist = end_playlist
         self.playlist_entries = playlist_entries
         self.version = version
         self.sequence = 0
-        self.duration = len(self.playlist_entries)
+        self.duration = target_duration
 
     def _generate_playlist(self, sequence):
         playlist = "{}\n{}".format(self._m3u8_header_template(sequence), self._generate_playlist_entries())
