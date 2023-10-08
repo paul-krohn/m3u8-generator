@@ -9,7 +9,6 @@ class PlaylistGenerator(object):
         '#EXTM3U',
         '#EXT-X-VERSION:{version}',
         '#EXT-X-TARGETDURATION:{duration}',
-        '#EXT-X-ALLOW-CACHE:{allow_cache}'
     ])
 
     def __init__(self, playlist_entries=None, version=3, end_playlist=True, target_duration=None):
@@ -45,7 +44,6 @@ class PlaylistGenerator(object):
     def _m3u8_header_template(self, sequence):
         header = self.header_template.format(
             version=self.version, duration=self.duration,
-            allow_cache='YES' if self.end_playlist else 'NO'
         ).strip()
 
         if sequence:
