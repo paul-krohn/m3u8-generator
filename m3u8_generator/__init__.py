@@ -12,6 +12,7 @@ class PlaylistGenerator(object):
         '#EXT-X-VERSION:{version}',
         '#EXT-X-TARGETDURATION:{duration}',
         '#EXT-X-PROGRAM-DATE-TIME:{start_time}',
+        '#EXT-X-INDEPENDENT-SEGMENTS',
     ])
 
     def __init__(self, playlist_entries, version=3, end_playlist=True, start_time=0, target_duration=None):
