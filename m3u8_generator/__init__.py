@@ -27,7 +27,7 @@ class PlaylistGenerator(object):
         self.version = version
         self.sequence = 0
         self.duration = target_duration
-        self.start_time = datetime.datetime.fromtimestamp(start_time, tz=ZoneInfo('UTC')).isoformat()
+        self.start_time = datetime.datetime.fromtimestamp(start_time, tz=ZoneInfo('UTC')).isoformat(timespec='milliseconds')
 
     def _generate_playlist(self, sequence):
         playlist = "{}\n{}".format(self._m3u8_header_template(sequence), self._generate_playlist_entries())
