@@ -1,3 +1,5 @@
+import datetime
+from zoneinfo import ZoneInfo
 import logging
 
 logger = logging.getLogger(__name__)
@@ -9,10 +11,13 @@ class PlaylistGenerator(object):
         '#EXTM3U',
         '#EXT-X-VERSION:{version}',
         '#EXT-X-TARGETDURATION:{duration}',
+        '#EXT-X-PROGRAM-DATE-TIME:{start_time}',
     ])
 
-    def __init__(self, playlist_entries=None, version=3, end_playlist=True, target_duration=None):
+    def __init__(self, playlist_entries, version=3, end_playlist=True, start_time=0, target_duration=None):
         if playlist_entries is None:
+            raise ValueError
+        if start_time == 0:
             raise ValueError
         if target_duration is None:
             raise ValueError
@@ -22,6 +27,7 @@ class PlaylistGenerator(object):
         self.version = version
         self.sequence = 0
         self.duration = target_duration
+        self.start_time = datetime.datetime.fromtimestamp(start_time, tz=ZoneInfo('UTC')).isoformat()
 
     def _generate_playlist(self, sequence):
         playlist = "{}\n{}".format(self._m3u8_header_template(sequence), self._generate_playlist_entries())
@@ -43,7 +49,7 @@ class PlaylistGenerator(object):
 
     def _m3u8_header_template(self, sequence):
         header = self.header_template.format(
-            version=self.version, duration=self.duration,
+            version=self.version, duration=self.duration, start_time=self.start_time
         ).strip()
 
         if sequence:
