@@ -36,10 +36,12 @@ class PlaylistGenerator(object):
         return playlist
 
     def _generate_playlist_entries(self):
-        playlist = ""
-        for entry in self.playlist_entries:
-            playlist += "#EXT-X-DISCONTINUITY\n#EXTINF:{duration},\n{media}\n".format(
-                duration=float(entry['duration']), media=(entry['name'])
+        playlist = "#EXT-X-INDEPENDENT-SEGMENTS\n"
+        for i in range(0, len(self.playlist_entries)):
+            if i != 0 and self.playlist_entries[i -1]["start_time"] + self.playlist_entries[i -1]["duration"] + 0.1 < self.playlist_entries[i]["start_time"]:
+                playlist += "#EXT-X-DISCONTINUITY\n"
+            playlist += "#EXTINF:{duration},\n{media}\n".format(
+                duration=float(self.playlist_entries[i]['duration']), media=(self.playlist_entries[i]['name'])
             )
 
         return playlist.replace(" ", "")
